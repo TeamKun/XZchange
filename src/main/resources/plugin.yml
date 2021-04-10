@@ -1,0 +1,10 @@
+name: XZChange
+version: 1.0
+main: net.kunmc.lab.xzchange.XZChange
+api-version: 1.16
+commands:
+  xzChange:
+    permission: XZChange
+permissions:
+  XZChange:
+    default: op
