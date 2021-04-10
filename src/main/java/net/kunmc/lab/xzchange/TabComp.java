@@ -15,7 +15,7 @@ public class TabComp implements TabCompleter {
         List<String> S = new ArrayList<>();
         if(cmd.getName().equals("xzChange")) {
             if (args.length == 1) {
-                return Stream.of("start","stop","stop","help").filter(e -> e.startsWith(args[0])).collect(Collectors.toList());
+                return Stream.of("start","stop","stop","help","set").filter(e -> e.startsWith(args[0])).collect(Collectors.toList());
             } else if (args.length == 2 && args[0].equals("set")) {
                 S.add("<seconds>");
                 return S;
