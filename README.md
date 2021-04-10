@@ -7,7 +7,7 @@
 ゲームの開始  
 /xzChange stop  
 ゲームの終了  
-/xzChange set <seconds>  
+/xzChange set "秒数"  
 インターバルの設定  
 /xzChange help  
 コマンド一覧の表示
