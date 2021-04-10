@@ -1,9 +1,6 @@
 package net.kunmc.lab.xzchange;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -87,7 +84,9 @@ public final class XZChange extends JavaPlugin {
                             player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 30, 1);
                             Location loc = player.getLocation();
                             loc.set(player.getLocation().getZ(),player.getLocation().getY(),player.getLocation().getX());
-                            player.teleport(loc);
+                            if(player.getGameMode() != GameMode.SPECTATOR) {
+                                player.teleport(loc);
+                            }
                         });
                         count = t;
                     } else if (count <= 5) {
