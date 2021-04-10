@@ -71,7 +71,7 @@ public final class XZChange extends JavaPlugin {
 
     public void gameLogic(int t){
         Bukkit.getOnlinePlayers().forEach(player -> {
-            player.sendTitle("","残り"+t+"秒でTPします",0,30,0);
+            player.sendActionBar("残り"+t+"秒でTPします");
         });
         new BukkitRunnable(){
             int count = t-1;
@@ -80,8 +80,8 @@ public final class XZChange extends JavaPlugin {
                 if(game) {
                     if (count == 0) {
                         Bukkit.getOnlinePlayers().forEach(player -> {
-                            player.sendTitle(ChatColor.GOLD + "TPします！", "", 0, 30, 0);
-                            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 30, 1);
+                            player.sendActionBar(ChatColor.GOLD + "TPします！");
+                            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5, 1);
                             Location loc = player.getLocation();
                             loc.set(player.getLocation().getZ(),player.getLocation().getY(),player.getLocation().getX());
                             if(player.getGameMode() != GameMode.SPECTATOR) {
@@ -91,17 +91,18 @@ public final class XZChange extends JavaPlugin {
                         count = t;
                     } else if (count <= 5) {
                         Bukkit.getOnlinePlayers().forEach(player -> {
-                            player.sendTitle(ChatColor.AQUA + "残り" + count + "秒でTPします", "", 0, 20, 0);
-                            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 30, 1);
+                            player.sendActionBar(ChatColor.AQUA + "残り" + count + "秒でTPします");
+                            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 5, 1);
                         });
                     } else {
                         Bukkit.getOnlinePlayers().forEach(player -> {
-                            player.sendTitle("", "残り" + count + "秒でTPします", 0, 30, 0);
+                            player.sendActionBar("残り" + count + "秒でTPします");
                         });
                     }
                     count--;
                 }else{
                     this.cancel();
+
                 }
             }
         }.runTaskTimer(this,0,20);
