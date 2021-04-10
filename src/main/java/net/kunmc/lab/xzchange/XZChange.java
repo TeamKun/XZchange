@@ -102,7 +102,6 @@ public final class XZChange extends JavaPlugin {
                     count--;
                 }else{
                     this.cancel();
-
                 }
             }
         }.runTaskTimer(this,0,20);

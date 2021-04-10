@@ -1,5 +1,5 @@
 name: XZChange
-version: 1.1
+version: 1.2
 main: net.kunmc.lab.xzchange.XZChange
 api-version: 1.16
 commands:

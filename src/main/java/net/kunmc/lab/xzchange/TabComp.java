@@ -6,6 +6,8 @@ import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TabComp implements TabCompleter {
 
@@ -13,11 +15,7 @@ public class TabComp implements TabCompleter {
         List<String> S = new ArrayList<>();
         if(cmd.getName().equals("xzChange")) {
             if (args.length == 1) {
-                S.add("set");
-                S.add("start");
-                S.add("stop");
-                S.add("help");
-                return S;
+                return Stream.of("start","stop","stop","help").filter(e -> e.startsWith(args[0])).collect(Collectors.toList());
             } else if (args.length == 2 && args[0].equals("set")) {
                 S.add("<seconds>");
                 return S;
