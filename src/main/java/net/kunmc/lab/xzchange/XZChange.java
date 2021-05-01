@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public final class XZChange extends JavaPlugin {
 
-    public int time ;
+    public int time;
     public boolean game = false;
 
     @Override
@@ -20,71 +20,71 @@ public final class XZChange extends JavaPlugin {
         time = getConfig().getInt("intervaltime");
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args){
-        if(cmd.getName().equals("xzChange")){
-            if(args.length==1){
-                if(args[0].equals("start")){
-                    sender.sendMessage(ChatColor.GREEN+"ゲームを開始します");
+    public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
+        if (cmd.getName().equals("xzChange")) {
+            if (args.length == 1) {
+                if (args[0].equals("start")) {
+                    sender.sendMessage(ChatColor.GREEN + "ゲームを開始します");
                     game = true;
                     gameLogic(time);
-                }else if(args[0].equals("stop")){
-                    if(game) {
+                } else if (args[0].equals("stop")) {
+                    if (game) {
                         sender.sendMessage(ChatColor.GREEN + "実行中のゲームに終了命令を出しました");
                         game = false;
-                    }else{
+                    } else {
                         sender.sendMessage(ChatColor.RED + "実行中のゲームはありません");
                     }
-                }else if(args[0].equals("help")){
-                    sender.sendMessage(ChatColor.AQUA+"/xzChange start");
+                } else if (args[0].equals("help")) {
+                    sender.sendMessage(ChatColor.AQUA + "/xzChange start");
                     sender.sendMessage("ゲームの開始");
-                    sender.sendMessage(ChatColor.AQUA+"/xzChange stop");
+                    sender.sendMessage(ChatColor.AQUA + "/xzChange stop");
                     sender.sendMessage("ゲームの終了");
-                    sender.sendMessage(ChatColor.AQUA+"/xzChange set <seconds>");
+                    sender.sendMessage(ChatColor.AQUA + "/xzChange set <seconds>");
                     sender.sendMessage("TPのインターバルの設定(単位:秒)");
-                    sender.sendMessage(ChatColor.AQUA+"/xzChange help");
+                    sender.sendMessage(ChatColor.AQUA + "/xzChange help");
                     sender.sendMessage("本プラグインのコマンド一覧の表示");
-                }else{
-                    sender.sendMessage(ChatColor.YELLOW+"コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
+                } else {
+                    sender.sendMessage(ChatColor.YELLOW + "コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
                 }
-            }
-            else if(args.length==2){
-                if(args[0].equals("set")){
-                    if(args[1].matches("[+-]?\\d*(\\.\\d+)?")){
-                        if(Integer.parseInt(args[1])>0){
+            } else if (args.length == 2) {
+                if (args[0].equals("set")) {
+                    if (args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
+                        if (Integer.parseInt(args[1]) > 0) {
                             time = Integer.parseInt(args[1]);
-                            sender.sendMessage(ChatColor.GREEN+"インターバルを"+args[1]+"秒に変更しました！");
-                        }else{
-                            sender.sendMessage(ChatColor.RED+"0より大きい数値を入力してください");
+                            sender.sendMessage(ChatColor.GREEN + "インターバルを" + args[1] + "秒に変更しました！");
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "0より大きい数値を入力してください");
                         }
-                    }else{
-                        sender.sendMessage(ChatColor.RED+"引数には数字を入力してください");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "引数には数字を入力してください");
                     }
-                }else{
-                    sender.sendMessage(ChatColor.YELLOW+"コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
+                } else {
+                    sender.sendMessage(ChatColor.YELLOW + "コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
                 }
-            }else{
-                sender.sendMessage(ChatColor.YELLOW+"コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
+            } else {
+                sender.sendMessage(ChatColor.YELLOW + "コマンドの形式が異なります！/xzChange help でコマンド一覧を確認できます。");
             }
         }
         return false;
     }
 
-    public void gameLogic(int t){
+    public void gameLogic(int t) {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            player.sendActionBar("残り"+t+"秒でTPします");
+            player.sendActionBar("残り" + t + "秒でTPします");
         });
-        new BukkitRunnable(){
-            int count = t-1;
+        new BukkitRunnable() {
+            int count = t - 1;
+
             @Override
             public void run() {
-                if(game) {
+                if (game) {
                     if (count == 0) {
                         Bukkit.getOnlinePlayers().forEach(player -> {
                             player.sendActionBar(ChatColor.GOLD + "TPします！");
-                            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5, 1);
+                            //player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5, 1);
                             Location loc = player.getLocation();
-                            loc.set(player.getLocation().getZ(),player.getLocation().getY(),player.getLocation().getX());
-                            if(player.getGameMode() != GameMode.SPECTATOR) {
+                            loc = new Location(loc.getWorld(), player.getLocation().getZ(), player.getLocation().getY(), player.getLocation().getX());
+                            if (player.getGameMode() != GameMode.SPECTATOR) {
                                 player.teleport(loc);
                             }
                         });
@@ -100,10 +100,10 @@ public final class XZChange extends JavaPlugin {
                         });
                     }
                     count--;
-                }else{
+                } else {
                     this.cancel();
                 }
             }
-        }.runTaskTimer(this,0,20);
+        }.runTaskTimer(this, 0, 20);
     }
 }
